@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">HW05</string>
+    <string name="options">options</string>
+    <string name="Home">Home</string>
+    <string name="Quit">Quit</string>
+
+</resources>
