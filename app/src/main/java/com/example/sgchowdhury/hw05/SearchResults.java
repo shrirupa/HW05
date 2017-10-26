@@ -1,25 +1,41 @@
+/***
+ * Homework 05
+ * Music App
+ * Gana Ramesan, Shrirupa Chowdhury
+ */
+
 package com.example.sgchowdhury.hw05;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
+import android.support.v4.app.FragmentTransaction;
+
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchResults extends AppCompatActivity {
     static ArrayList<TrackInfo> trackInfoArrayList;
-
+    static int currtrck;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {   // what the item does on selection
@@ -33,6 +49,7 @@ public class SearchResults extends AppCompatActivity {
                 finishAffinity();  // to finish current activity and all parent activity
                 System.exit(0);
                 break;
+
         }
         return true;
     }
@@ -51,31 +68,38 @@ public class SearchResults extends AppCompatActivity {
         //receives intent from the mainactivity
         Intent intent = getIntent();
         trackInfoArrayList = intent.getExtras().getParcelableArrayList("json");
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
-        ScrollView sv_main= (ScrollView) findViewById(R.id.svmain);
-        LinearLayout container = new LinearLayout(this);
-        container.setOrientation(LinearLayout.VERTICAL);
+        ListView listView = (ListView) findViewById(R.id.tracklist);
+        CustomAdapter customAdapter = new CustomAdapter(this,trackInfoArrayList);
+        listView.setAdapter(customAdapter);
+        customAdapter.setNotifyOnChange(true);
 
-        for (final TrackInfo trackInfo: trackInfoArrayList){
-            listItemUI item = new listItemUI(this);
-            View itemView= (View)item;
-            item.artist.setText(trackInfo.getArtist());
-            item.trackname.setText(trackInfo.getTrack_name());
-            Picasso.with(SearchResults.this).load(trackInfo.getImage_small()).into(item.imageView);
 
-            container.addView(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i1 = new Intent (SearchResults.this, TrackDetailsActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("json",trackInfo);
-                    i1.putExtras(bundle);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("demo", "onItemClick: ");
+                Intent i1 = new Intent (SearchResults.this, TrackDetailsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("json",trackInfoArrayList.get(i));
+                i1.putExtras(bundle);
+                startActivity(i1);
+                currtrck = i;
 
-                }
-            });
-        }
-        sv_main.addView(container);
+
+            }
+        });
+
 
     }
+
+
+
+
+
+
+
+
+
 }

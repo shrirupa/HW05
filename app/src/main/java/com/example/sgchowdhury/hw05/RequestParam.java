@@ -1,10 +1,10 @@
-package com.example.sgchowdhury.hw05;
-
 /***
- * InClass05
- * Recipe Puppy
+ * Homework 05
+ * Music App
  * Gana Ramesan, Shrirupa Chowdhury
  */
+package com.example.sgchowdhury.hw05;
+
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;

@@ -1,11 +1,13 @@
+/***
+ * Homework 05
+ * Music App
+ * Gana Ramesan, Shrirupa Chowdhury
+ */
 package com.example.sgchowdhury.hw05;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by sg chowdhury on 11-10-2017.
- */
 
 public class TrackInfo implements Parcelable {
     String track_name,artist,url,image_small,image_large;
@@ -86,4 +88,21 @@ public class TrackInfo implements Parcelable {
             return new TrackInfo[size];
         }
     };
+
+    @Override
+    public int hashCode() {
+        int hash =17;
+        hash = hash*31+getArtist().hashCode();
+        hash = hash*31+getUrl().hashCode();
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof TrackInfo)){
+            return false;
+        }
+        TrackInfo tobj = (TrackInfo) obj;
+        return this.getArtist().equals(tobj.getArtist()) && this.getUrl().equals(tobj.getUrl());
+    }
 }

@@ -36,12 +36,15 @@
 
         </LinearLayout>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/ButtonFav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/off" />
+            app:srcCompat="@drawable/off"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:tag="off"/>
 
     </LinearLayout>
 

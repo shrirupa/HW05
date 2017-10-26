@@ -1,3 +1,9 @@
+/***
+ * Homework 05
+ * Music App
+ * Gana Ramesan, Shrirupa Chowdhury
+ */
+
 package com.example.sgchowdhury.hw05;
 
 import android.app.Activity;
@@ -15,19 +21,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-/**
- * Created by sg chowdhury on 12-10-2017.
- */
 
 public class DownloadJsonAsync extends AsyncTask<RequestParam, Integer, String> {
-    static StringBuilder sb = new StringBuilder();
+
     private Context context;
     private Activity activity;
 
     @Override
     protected String doInBackground(RequestParam... strings) {
         BufferedReader reader = null;
+        StringBuilder sb = new StringBuilder();
         try {
+
             HttpURLConnection con = strings[0].setUpCOnnectio();
             reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String line = "";
@@ -45,16 +50,17 @@ public class DownloadJsonAsync extends AsyncTask<RequestParam, Integer, String> 
                 e.printStackTrace();
             }
         }
+
         return null;
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        Log.d("json",sb.toString());
+        Log.d("json",s);
         ArrayList<TrackInfo> trackInfoArrayList = new ArrayList<>();
         try {
-            trackInfoArrayList = TrackInfoUtil.parseTrackInfos(sb.toString());
+            trackInfoArrayList = TrackInfoUtil.parseTrackInfos(s);
         } catch (JSONException e) {
             e.printStackTrace();
         }
